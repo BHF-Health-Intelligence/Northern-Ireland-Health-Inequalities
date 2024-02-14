@@ -145,7 +145,7 @@ qof_plot <- ggplot(qof_melted, aes(x = Deprivation_Rank, y = value, group = Cond
         legend.text=element_text(size=15))
 qof_plot
 
-##figure 8 BHF CVD estimate
+##BHF CVD estimate
 qof2_data <- read_excel("~/Projects/qof2_data.xlsx")
 qof2_data$Deprivation_Rank<-as.factor(qof2_data$Deprivation_Rank)
 qof2_plot <- ggplot(qof2_data, aes(x=Deprivation_Rank, y=BHF_CVD_Estimate, fill=Deprivation_Rank)) +
@@ -168,7 +168,7 @@ qof2_plot <- ggplot(qof2_data, aes(x=Deprivation_Rank, y=BHF_CVD_Estimate, fill=
         legend.text=element_text(size=15))
 qof2_plot
 
-##figure 9 SAR
+##SAR
 sar_data <- read_excel("~/Projects/sar_data.xlsx")
 sar_data <- sar_data %>%
   rename(Population=`Admissions_per_100,000`)
@@ -256,7 +256,7 @@ gp_loss_plot <- ggplot(gp_loss, aes(x=Rank,y=Percent_Loss,fill=Rank))+
         legend.text=element_text(size=15))
 gp_loss_plot
 
-##figure 13 pp_anti
+##pp_anti
 pp_anti <- read_excel("~/Projects/pp_anti.xlsx")
 ppanti_long <- pp_anti %>%
   pivot_longer(!pp, names_to ="Year", values_to = "Standardised_Prescription_Rate")
@@ -281,7 +281,7 @@ ppanti_plot <- ggplot(ppanti_long, aes(x = Year, y = Persons_prescribed_per_1000
 ppanti_plot
 
 
-#figure 14 statins
+# statins
 ppstatin_long <- pp_statin %>%
   pivot_longer(!Persons_Prescribed_per_1000_population, names_to ="Year", values_to = "Persons_prescribed_per_1000_population")
 ppstatin_long <- ppstatin_long %>%
@@ -303,7 +303,7 @@ ppstatin_plot <- ggplot(ppstatin_long, aes(x = Year, y = Persons_prescribed_per_
         legend.text=element_text(size=15))
 ppstatin_plot
 
-#figur15 sdr u75
+#sdr u75
 sdr_u75 <- read_excel("~/Projects/sdr_u75.xlsx")
 sdr_u75 <- sdr_u75 %>% 
   rename(Deaths_100k=`Deaths per 100k`)
@@ -325,42 +325,7 @@ sdr_u75_plot<- ggplot(sdr_u75, aes(x = Year, y = Deaths_100k, group = `Deprivati
         legend.text=element_text(size=15))
 sdr_u75_plot
 
-#figure 16 u75 asdr
-###
-asdr_u75 <- read_excel("~/Projects/asdr_u75.xlsx")
-asdr_melted <- melt(asdr_u75, id.vars = c("LGD", "Deprivation Rank"), measure.vars = c("asdr_men", "asdr_women", "asdr_total"))
-asdr_melted$variable <- gsub("asdr_men", "Men", asdr_melted$variable)
-asdr_melted$variable <- gsub("asdr_women", "Women", asdr_melted$variable)
-asdr_melted$variable <- gsub("asdr_total", "Total", asdr_melted$variable)
-asdr_melted <- asdr_melted %>%
-  rename(ASDR=value)
-asdr_melted <- asdr_melted %>%
-  rename(Gender=variable)
-asdr_melted <- asdr_melted %>%
-  rename(IMD=`Deprivation Rank`)
 
-
-asdr_melted$IMD <-as.factor(asdr_melted$IMD)
-asdr_melted$Gender <-factor(asdr_melted$Gender, levels=c("Men","Women","Total"))
-asdr_bar75<-ggplot(asdr_melted, aes(x = IMD, y =ASDR, fill = IMD)) +
-  geom_bar(stat = "identity") +
-  scale_fill_bhf(palette = 'red and light blue') +
-  bhf_style() +
-  theme(legend.position = "none") +
-  scale_x_discrete(labels = function(IMD) str_wrap(IMD, width = 20)) +
-  labs(title = "Under-75 Age-standardised death rates per 100,000 for CVD, by gender in Northern Ireland in 2019-21",
-       x = "Deprivation Rank (1 = most deprived, 11 = least deprived)", y = "ASDR", caption="Data Source: BHF Compendium, Mortality rates calculated in partnership with Northern Ireland Statistics and Research Agency")+
-  facet_wrap(~Gender)+
-  theme(plot.caption.position = "plot")+
-  theme(strip.text =element_text(size=15))+
-  theme(axis.text = element_text(size = 14),
-        title = element_text(size = 17),
-        axis.title.x = element_text(size = 20),
-        axis.title.y= element_text(size = 20),
-        plot.title= element_text(size = 20),
-        legend.text=element_text(size=15))
-
-asdr_bar75
 
 #figure 17 life expectancy
 le_comp <- read_excel("~/Projects/le_comp.xlsx")
@@ -414,7 +379,7 @@ life_plot2 <-ggplot(life_melted, aes(x = Gender, y = value, fill = Population))+
         plot.title= element_text(size = 20),
         legend.text=element_text(size=15))
 life_plot2
-#figure 18 life expectancy
+#life expectancy
 ##life_change
 life_change <- read_excel("~/Projects/life_change.xlsx")
 
@@ -442,7 +407,7 @@ life_change_plot <-ggplot(life_change, aes(x = Year, y = Inequality_Gap, fill = 
         legend.text=element_text(size=15))
 life_change_plot
 
-#figure 19 appendix A
+# appendix A
 alcohol_NI <- read_excel("~/Project 1 Northern Ireland HE/alcohol_NI.xlsx")
 alcohol_sub <- alcohol_NI %>%
   pivot_longer(!Category, names_to = "Deprivation_Quintile", values_to = "Percentage")
@@ -474,7 +439,7 @@ alcohol_plot2 <- ggplot(alcohol_sub, aes(x=Deprivation_Quintile, y=Percentage, f
         legend.text=element_text(size=15))
 alcohol_plot2
 
-#figure 20 appendix b
+# appendix b
 ##change in gps
 numgp2 <- read_excel("~/Projects/numgp2.xlsx")
 numgp2$`Deprivation Rank`<-as.factor(numgp2$`Deprivation Rank`)
@@ -538,7 +503,7 @@ numgp2_plot<-ggplot(numgp2, aes(x=`Deprivation Rank`, y=value, fill=variable))+
   
   asdr_bar
   
-  ## figure 22 hosp_admin (elective vs emergency)
+  ##  hosp_admin (elective vs emergency)
   hosp_admin <- read_excel("~/Projects/hosp_admin.xlsx")
   hosp_melted <-melt(hosp_admin, id.vars=c("Population","Type"), measure.vars=c("2017/18","2018/19","2019/20","2020/21","2021/22"))
   hosp_melted <- hosp_melted %>%
@@ -566,5 +531,41 @@ numgp2_plot<-ggplot(numgp2, aes(x=`Deprivation Rank`, y=value, fill=variable))+
           plot.title= element_text(size = 20),
           legend.text=element_text(size=15))
   
-
   hosp_plot
+  
+  # u75 asdr
+  ###
+  asdr_u75 <- read_excel("~/Projects/asdr_u75.xlsx")
+  asdr_melted <- melt(asdr_u75, id.vars = c("LGD", "Deprivation Rank"), measure.vars = c("asdr_men", "asdr_women", "asdr_total"))
+  asdr_melted$variable <- gsub("asdr_men", "Men", asdr_melted$variable)
+  asdr_melted$variable <- gsub("asdr_women", "Women", asdr_melted$variable)
+  asdr_melted$variable <- gsub("asdr_total", "Total", asdr_melted$variable)
+  asdr_melted <- asdr_melted %>%
+    rename(ASDR=value)
+  asdr_melted <- asdr_melted %>%
+    rename(Gender=variable)
+  asdr_melted <- asdr_melted %>%
+    rename(IMD=`Deprivation Rank`)
+  
+  
+  asdr_melted$IMD <-as.factor(asdr_melted$IMD)
+  asdr_melted$Gender <-factor(asdr_melted$Gender, levels=c("Men","Women","Total"))
+  asdr_bar75<-ggplot(asdr_melted, aes(x = IMD, y =ASDR, fill = IMD)) +
+    geom_bar(stat = "identity") +
+    scale_fill_bhf(palette = 'red and light blue') +
+    bhf_style() +
+    theme(legend.position = "none") +
+    scale_x_discrete(labels = function(IMD) str_wrap(IMD, width = 20)) +
+    labs(title = "Under-75 Age-standardised death rates per 100,000 for CVD, by gender in Northern Ireland in 2019-21",
+         x = "Deprivation Rank (1 = most deprived, 11 = least deprived)", y = "ASDR", caption="Data Source: BHF Compendium, Mortality rates calculated in partnership with Northern Ireland Statistics and Research Agency")+
+    facet_wrap(~Gender)+
+    theme(plot.caption.position = "plot")+
+    theme(strip.text =element_text(size=15))+
+    theme(axis.text = element_text(size = 14),
+          title = element_text(size = 17),
+          axis.title.x = element_text(size = 20),
+          axis.title.y= element_text(size = 20),
+          plot.title= element_text(size = 20),
+          legend.text=element_text(size=15))
+  
+  asdr_bar75
